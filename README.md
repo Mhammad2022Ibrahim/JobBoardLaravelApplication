@@ -24,7 +24,7 @@ A modern job board application built with Laravel that connects employers with j
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/jobboard.git
+   git clone https://github.com/Mhammad2022Ibrahim/JobBoardLaravelApplication.git
    cd jobboard
    ```
 
