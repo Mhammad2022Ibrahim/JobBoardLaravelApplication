@@ -12,6 +12,24 @@ class LoginController extends Controller
     }
 
     public function store(){
+        // dd(request()->all());
+        $attributes = request()->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        // if (Auth::attempt($attributes)) {
+        //     session()->regenerate();
+        //     return redirect('/')->with('success', 'Welcome back!');
+        // }
+
+        if (Auth::attempt($attributes)) {
+            session()->regenerate();
+            // return redirect('/')->with('success', 'Welcome back!');
+            return redirect('/jobs')->with('success', 'Welcome back!');
+        }
+
+        return back()->withErrors(['email' => 'Invalid credentials'])->onlyInput('email');
 
     }
 

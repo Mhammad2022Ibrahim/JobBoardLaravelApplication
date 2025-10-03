@@ -11,10 +11,12 @@
         <li class="text-gray-700 mb-2">Description: {{ $job['description'] }}</li>
     </div>
 
-    <p class="mt-6">
-        <x-button href="/jobs/{{ $job->id }}/edit"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit Job</x-button>
-    </p>
+    @can('edit', $job)
+        <p class="mt-6">
+            <x-button href="/jobs/{{ $job->id }}/edit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit Job</x-button>
+        </p>
+    @endcan
 
 
 </x-layout>

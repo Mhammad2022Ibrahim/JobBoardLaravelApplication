@@ -28,32 +28,23 @@ Route::view('/', 'home');
 // });
 
 // Single line to replace all the above routes for JobController
-Route::resource('jobs', JobController::class
-// , ['except' => ['destroy']]
-//or we can use only to specify which routes we want to include
-// Route::resource('jobs', JobController::class, ['only' => ['index', 'show']]
-//->names('jobs') // to specify the names of the routes
-);
+// Route::resource('jobs', JobController::class
+// // , ['except' => ['destroy']]
+// //or we can use only to specify which routes we want to include
+// // Route::resource('jobs', JobController::class, ['only' => ['index', 'show']]
+// //->names('jobs') // to specify the names of the routes
+// )->middleware('auth'); // to apply auth middleware to all routes in this resource
 
-// //Index
-// // Route::get('/jobs', function () {
-// //     // $jobs = Job::all();
-// //     // $jobs = Job::with('employer')->get(); // Eager load the employer relationship, this is lazy loading
-// //     // $jobs = Job::with('employer')->paginate(3);
-// //     $jobs = Job::with('employer')->latest()->simplePaginate(3);
-// //     // $jobs = Job::with('employer')->cursorPaginate(3);
-// //     return view('jobs.index', [
-// //         'jobs' => $jobs
-// //     ]);
-// // });
 
-// Route::get('/jobs', [JobController::class, 'index']);
+
+Route::get('/jobs', [JobController::class, 'index']);
     
 
-// //Create
-// Route::get('/jobs/create', [JobController::class, 'create']);
+//Create
+Route::get('/jobs/create', [JobController::class, 'create']);
 
-// //Show
+Route::post('/jobs', [JobController::class, 'store'])->middleware('auth');
+//Show
 // // Route::get('/jobs/{id}', function ($id) {
 // //     $job = Job::find($id);
 // //     // dd($job);
@@ -62,7 +53,18 @@ Route::resource('jobs', JobController::class
 // // });
 
 // //or second method for Show
-// Route::get('/jobs/{job}', [JobController::class, 'show']);
+Route::get('/jobs/{job}', [JobController::class, 'show']);
+
+Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])
+    ->middleware(['auth', 'can:edit,job']);
+
+Route::patch('/jobs/{job}', [JobController::class, 'update'])
+    ->middleware('auth')
+    ->can('edit,job');
+
+Route::delete('/jobs/{job}', [JobController::class, 'destroy'])
+    ->middleware('auth')
+    ->can('delete,job');
 
 
 // //Store
@@ -106,6 +108,6 @@ Route::get('/register', [RegisterController::class, 'create']);
 
 Route::post('/register', [RegisterController::class, 'store']);
 
-Route::get('/login', [LoginController::class,'create']);
+Route::get('/login', [LoginController::class,'create'])->name('login');
 Route::post('/login', [LoginController::class,'store']);
 Route::post('/logout', [LoginController::class,'destroy']);
